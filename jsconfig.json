@@ -1,0 +1,12 @@
+{
+  "// why": "Editor settings for this repo only. Herdr writes its own jsconfig.json and gpui-kit types into each installed mod folder; here the herdr/gpui modules aren't resolvable, so strict JS checking would only report noise. `herdr-app check` and `node --test` are the real checks.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "checkJs": false,
+    "noEmit": true
+  },
+  "exclude": ["node_modules"]
+}

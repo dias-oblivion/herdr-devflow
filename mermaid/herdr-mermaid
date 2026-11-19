@@ -1,0 +1,11 @@
+#!/bin/sh
+# herdr-mermaid <job.json>: draws mermaid blocks to PNG (see render.mjs next to it).
+# Node comes from nvm's v20 when there (Herdr's exec and hooks may not load nvm), else PATH.
+set -eu
+dir=${HERDR_MERMAID_HOME:-$HOME/.local/share/herdr-devflow/mermaid}
+node=${HERDR_MERMAID_NODE:-}
+if [ -z "$node" ]; then
+  for n in "$HOME"/.nvm/versions/node/v2[0-9]*/bin/node; do [ -x "$n" ] && node=$n; done
+fi
+[ -n "$node" ] || node=$(command -v node) || { echo "herdr-mermaid: node not found" >&2; exit 127; }
+exec "$node" "$dir/render.mjs" "$@"

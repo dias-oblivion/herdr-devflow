@@ -1,0 +1,6 @@
+node_modules/
+*.tmp
+# Written by Herdr (herdr-app check) into each mod folder
+mods/*/gpui-kit.d.ts
+mods/*/herdr.d.ts
+mods/*/jsconfig.json
