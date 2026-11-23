@@ -6,6 +6,7 @@ Um layout do [Herdr](https://herdr.dev) (`dev`) para trabalhar com Claude Code e
 - **Planos**: os planos de `~/.claude/plans`. Clicar abre o plano no painel direito.
 - **Terminais**: todos os terminais abertos no Herdr, com a pasta e a branch atuais. O **+** abre um shell e o ✦ abre um Claude, os dois em `~/Workspace` (no space "Terminais").
 - **Plano ao lado do terminal**: quando o Claude pede aprovação de um plano (`ExitPlanMode`), um hook avisa o Herdr e o plano abre no painel ao lado daquele terminal. Os **mermaid vêm desenhados**: clique para ampliar, "código" mostra a fonte. Você lê o plano e aprova com Enter no terminal, como sempre.
+- **Instrução para o Claude**: o `claude/planos.md` diz ao Claude para planejar task do Jira e mudança entre componentes no plan mode, com o plano no arquivo (não no chat) e mermaid no formato que o painel desenha. O instalador copia para `~/.claude/herdr-devflow-planos.md` e acrescenta `@~/.claude/herdr-devflow-planos.md` no `~/.claude/CLAUDE.md`.
 
 ## Teclas (só no layout dev)
 
@@ -28,6 +29,7 @@ Um layout do [Herdr](https://herdr.dev) (`dev`) para trabalhar com Claude Code e
 | `layouts/dev.json` | o layout: o centro é um stack `work-main` (`term` ou `diff`), e o painel `panel-body` ganhou o filho `plan` |
 | `mermaid/` | `herdr-mermaid`: desenha os blocos em PNG com mermaid-cli e o Google Chrome do sistema, tudo local |
 | `hooks/herdr-plan-open.sh` | hook `PreToolUse` do `ExitPlanMode`: grava `~/.local/state/herdr-devflow/plans/<terminal>.json` |
+| `claude/planos.md` | instrução do Claude: plan mode, plano em arquivo e regras dos diagramas |
 
 O diff no centro precisa do github-diff com o modo `follow` (repo `herdr-github-diff`).
 
@@ -45,4 +47,5 @@ Para rodar os testes: `node --test tests/*.test.mjs`. Para validar um mod: `herd
 - Para voltar ao layout anterior, use `ctrl-shift-l` ou `herdr-app do layout.switch --name main-reviewer`.
 - Hook: tire do `~/.claude/settings.json` a entrada `PreToolUse` com `matcher: "ExitPlanMode"`. Há um backup `settings.json.bak-herdr-devflow-*`.
 - Teclas: apague a seção `"layout:dev"` do `~/.config/herdr-app/keys.json`.
-- Arquivos: `~/.config/herdr-app/mods/{projects,terminals-list,plan-viewer,tabs-dev}`, `~/.config/herdr-app/layouts/dev.json`, `~/.config/herdr-app/plan-cache`, `~/.local/share/herdr-devflow`, `~/.local/bin/herdr-mermaid` e `~/.claude/scripts/herdr-plan-open.sh`.
+- Instrução: tire a linha `@~/.claude/herdr-devflow-planos.md` do `~/.claude/CLAUDE.md`. Há um backup `CLAUDE.md.bak-herdr-devflow-*`.
+- Arquivos: `~/.config/herdr-app/mods/{projects,terminals-list,plan-viewer,tabs-dev}`, `~/.config/herdr-app/layouts/dev.json`, `~/.config/herdr-app/plan-cache`, `~/.local/share/herdr-devflow`, `~/.local/bin/herdr-mermaid`, `~/.claude/scripts/herdr-plan-open.sh` e `~/.claude/herdr-devflow-planos.md`.

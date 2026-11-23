@@ -8,6 +8,8 @@
 #    wrapper ~/.local/bin/herdr-mermaid
 #  - the ExitPlanMode hook → ~/.claude/scripts/herdr-plan-open.sh, registered in ~/.claude/settings.json
 #    (a backup of settings.json is kept next to it first)
+#  - the plan instruction for Claude → ~/.claude/herdr-devflow-planos.md, imported from ~/.claude/CLAUDE.md
+#    (same backup rule)
 #
 # Needs: herdr-app, python3, jq, node >= 18 with npm, Google Chrome (or HERDR_MERMAID_CHROME).
 # Usage: sh install.sh            (HERDR_APP_HOME / CLAUDE_HOME pick other homes)
@@ -112,6 +114,27 @@ with open(tmp, "w") as f:
 shutil.copymode(real, tmp)
 os.replace(tmp, real)
 print("  registrado (backup ao lado do settings.json)")
+PY
+
+echo "→ instrução de planos para o Claude"
+cp "$here/claude/planos.md" "$claude/herdr-devflow-planos.md"
+python3 -I - "$claude/CLAUDE.md" "$claude/herdr-devflow-planos.md" "$HOME" <<'PY'
+import os, shutil, sys, time
+path, target, home = sys.argv[1], sys.argv[2], sys.argv[3]
+ref = "@" + ("~" + target[len(home):] if target.startswith(home + os.sep) else target)
+real = os.path.realpath(path)
+original = open(real).read() if os.path.exists(real) else ""
+if ref in original.splitlines():
+    print("  já importada")
+    sys.exit(0)
+tmp = real + ".herdr-devflow.tmp"
+with open(tmp, "w") as f:
+    f.write((original.rstrip("\n") + "\n\n" if original else "") + ref + "\n")
+if original:
+    shutil.copy2(real, f"{real}.bak-herdr-devflow-{int(time.time())}")
+    shutil.copymode(real, tmp)
+os.replace(tmp, real)
+print("  importada no CLAUDE.md (backup ao lado)" if original else "  CLAUDE.md criado com o import")
 PY
 
 echo
